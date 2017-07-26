@@ -1,0 +1,14 @@
+name: gradle
+version: 0.1.0
+description: Install gradle and prepare to run
+keywords:
+  - gradle
+  - java
+properties:
+  command:
+    type: string
+    required: true
+  version:
+    type: string
+    required: false
+    default: 4.0.1
