@@ -25,21 +25,21 @@ main() {
   if [ ! -d "/gradle" ]; then
     mkdir /gradle
     echo 'Downloading Gradle'
-    wget -nv https://services.gradle.org/distributions/gradle-$WERCKER_ADD_TO_KNOWN_HOSTS_VERSION-bin.zip
+    wget -nv https://services.gradle.org/distributions/gradle-$WERCKER_GRADLE_VERSION-bin.zip
 
     echo 'Extracting gradle'
-    unzip -q gradle-$WERCKER_ADD_TO_KNOWN_HOSTS_VERSION-bin.zip -d /gradle
-    rm gradle-$WERCKER_ADD_TO_KNOWN_HOSTS_VERSION-bin.zip
+    unzip -q gradle-$WERCKER_GRADLE_VERSION-bin.zip -d /gradle
+    rm gradle-$WERCKER_GRADLE_VERSION-bin.zip
 
   else
-    if [ ! -x "/gradle/gradle-$WERCKER_ADD_TO_KNOWN_HOSTS_VERSION-all/bin/gradle" ] ; then
+    if [ ! -x "/gradle/gradle-$WERCKER_GRADLE_VERSION-all/bin/gradle" ] ; then
         echo "ERROR:  gradle was not installed properly"
         exit 1
     fi
     echo 'Gradle already present'
   fi
 
-  export PATH=$PATH:/gradle/gradle-$WERCKER_ADD_TO_KNOWN_HOSTS_VERSION/bin
-  gradle $WERCKER_ADD_TO_KNOWN_HOSTS_COMMAND
+  export PATH=$PATH:/gradle/gradle-$WERCKER_GRADLE_VERSION/bin
+  gradle $WERCKER_GRADLE_COMMAND
 }
 main;
