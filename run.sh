@@ -1,45 +1,112 @@
 #!/bin/bash
 
-main() {
+# Copyright 2017, Oracle and/or its affiliates. All rights reserved.
 
-  if [ -n "$JAVA_HOME" ] ; then
-    if [ ! -x "$JAVA_HOME/bin/java" ] ; then
-        echo "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME"
-        exit 1
-    fi
-  else
-    echo 'Gradle requires java to work, please ensure Java is installed and JAVA_HOME set correctly'
-    exit 1
+echo "$(date +%H:%M:%S):  Hello from the Gradle Wercker Step"
+echo "For information on how to use this step, please review the documentation in the Wercker Marketplace,"
+echo "or visit https://github.com/wercker/step-gradle"
+
+#
+# check if a specific version of gradle was requested, otherwise use the latest one we have tested with
+#
+if [[ -z "$WERCKER_STEP_GRADLE_VERSION" ]]; then
+  WERCKER_STEP_GRADLE_VERSION="4.0.1"
+fi
+
+#
+# check if we have everything we need to run Gradle
+#
+
+if [ -n "$JAVA_HOME" ] ; then
+  if [ ! -x "$JAVA_HOME/bin/java" ] ; then
+      echo "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME"
+      exit 1
   fi
+else
+  echo "$(date +%H:%M:%S):  Gradle requires java to work, please ensure Java is installed and JAVA_HOME set correctly"
+  exit 1
+fi
 
-  if [ hash wget 2>/dev/null ] ; then
-    echo 'wget is required to install gradle, install curl before this step.'
-    exit 1
+# check that wget is installed
+hash curl 2>/dev/null || { echo "$(date +%H:%M:%S):  curl is required to install gradle, install curl before this step."; exit 1; }
+
+# check unzip is installed
+hash unzip 2>/dev/null || { echo "$(date +%H:%M:%S):  unzip is required, install tar before this step"; exit 1; }
+
+if [ ! -d "/gradle" ]; then
+  mkdir /gradle
+  echo "$(date +%H:%M:%S):  Downloading Gradle"
+  curl -O https://services.gradle.org/distributions/gradle-$WERCKER_STEP_GRADLE_VERSION-bin.zip
+
+  echo "$(date +%H:%M:%S):  Extracting gradle"
+  unzip -q gradle-$WERCKER_STEP_GRADLE_VERSION-bin.zip -d /gradle
+  rm gradle-$WERCKER_STEP_GRADLE_VERSION-bin.zip
+
+else
+  if [ ! -x "/gradle/gradle-$WERCKER_STEP_GRADLE_VERSION-all/bin/gradle" ] ; then
+      echo "$(date +%H:%M:%S):  ERROR:  gradle was not installed properly"
+      exit 1
   fi
+  echo "$(date +%H:%M:%S):  Gradle already present"
+fi
 
-  if [ hash unzip 2>/dev/null ] ; then
-    echo 'unzip is required, install tar before this step'
-    exit 1
-  fi
+#
+# prepare gradle command
+#
 
-  if [ ! -d "/gradle" ]; then
-    mkdir /gradle
-    echo 'Downloading Gradle'
-    wget -nv https://services.gradle.org/distributions/gradle-$WERCKER_GRADLE_VERSION-bin.zip
+if [ "$WERCKER_STEP_GRADLE_DEBUG" = "true" ]; then
+  DEBUG="--debug"
+else
+  DEBUG=""
+fi
 
-    echo 'Extracting gradle'
-    unzip -q gradle-$WERCKER_GRADLE_VERSION-bin.zip -d /gradle
-    rm gradle-$WERCKER_GRADLE_VERSION-bin.zip
+if [[ -z "$WERCKER_STEP_GRADLE_BUILD_FILE" ]]; then
+  BUILD_FILE=""
+else
+  BUILD_FILE="-b $WERCKER_STEP_GRADLE_BUILD_FILE"
+fi
 
-  else
-    if [ ! -x "/gradle/gradle-$WERCKER_GRADLE_VERSION-all/bin/gradle" ] ; then
-        echo "ERROR:  gradle was not installed properly"
-        exit 1
-    fi
-    echo 'Gradle already present'
-  fi
+if [[ -z "$WERCKER_STEP_GRADLE_SETTINGS_FILE" ]]; then
+  SETTINGS_FILE=""
+else
+  SETTINGS_FILE="-c $WERCKER_STEP_GRADLE_SETTINGS_FILE"
+fi
 
-  export PATH=$PATH:/gradle/gradle-$WERCKER_GRADLE_VERSION/bin
-  gradle $WERCKER_GRADLE_COMMAND
-}
-main;
+if [[ -z "$WERCKER_STEP_GRADLE_SYSTEM_PROPS" ]]; then
+  SYSTEM_PROPS=""
+else
+  SYSTEM_PROPS=""
+  for property in $WERCKER_STEP_GRADLE_SYSTEM_PROPS
+  do
+    SYSTEM_PROPS="$SYSTEM_PROPS -D$property"
+  done
+fi
+
+if [[ -z "$WERCKER_STEP_GRADLE_INIT_SCRIPT" ]]; then
+  INIT_SCRIPT=""
+else
+  INIT_SCRIPT="-I $WERCKER_STEP_GRADLE_INIT_SCRIPT"
+fi
+
+if [[ -z "$WERCKER_STEP_GRADLE_PROFILES" ]]; then
+  PROFILES=""
+else
+  PROFILES="-I $WERCKER_STEP_GRADLE_PROFILES"
+fi
+
+
+if [ "$WERCKER_STEP_GRADLE_CACHE_PROJECT_CACHE" = "true" ]; then
+  CACHE_DIR="--project-cache-dir=$WERCKER_CACHE_DIR/.gradle"
+else
+  CACHE_DIR=""
+fi
+
+# set the GRADLE_OPTS
+export GRADLE_OPTS="$WERCKER_STEP_GRADLE_GRADLE_OPTS"
+
+#
+# run gradle
+#
+export PATH=$PATH:/gradle/gradle-$WERCKER_STEP_GRADLE_VERSION/bin
+gradle $BUILD_FILE $SETTINGS_FILE --console=plain $SYSTEM_PROPS $DEBUG $INIT_SCRIPT $CACHE_DIR --stacktrace --foreground $WERCKER_STEP_GRADLE_TASK
+

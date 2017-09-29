@@ -1,14 +1,36 @@
 name: gradle
-version: 0.1.0
-description: Install gradle and prepare to run
+version: 0.1.2
+description: Install and run gradle
 keywords:
   - gradle
   - java
 properties:
-  command:
+  task:
     type: string
     required: true
   version:
     type: string
     required: false
     default: 4.0.1
+  build_file:
+    type: string
+    required: false
+    default: build.gradle
+  debug:
+    type: string
+    required: false
+  cache_project_cache:
+    type: string
+    required: false
+  init_script:
+    type: string
+    required: false
+  system_props:
+    type: string
+    required: false
+  settings_file:
+    type: string
+    required: false
+  gradle_opts:
+    type: string
+    required: false
