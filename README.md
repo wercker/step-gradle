@@ -53,3 +53,8 @@ All paramaters are optional unless otherwise specified.
 
 * `gradle_opts` 
 <br>Specify a value that you want set as `GRADLE_OPTS` during the Gradle build. 
+
+
+## Sample Application
+
+A sample application is provided at [https://github.com/markxnelson/sample-gradle-step](https://github.com/markxnelson/sample-gradle-step) that demonstrates how to use this step. 
