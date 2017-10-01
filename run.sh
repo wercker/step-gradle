@@ -37,7 +37,7 @@ hash unzip 2>/dev/null || { echo "$(date +%H:%M:%S):  unzip is required, install
 if [ ! -d "/gradle" ]; then
   mkdir /gradle
   echo "$(date +%H:%M:%S):  Downloading Gradle"
-  curl -O https://services.gradle.org/distributions/gradle-$WERCKER_GRADLE_VERSION-bin.zip
+  curl -O -L https://services.gradle.org/distributions/gradle-$WERCKER_GRADLE_VERSION-bin.zip
 
   echo "$(date +%H:%M:%S):  Extracting gradle"
   unzip -q gradle-$WERCKER_GRADLE_VERSION-bin.zip -d /gradle
