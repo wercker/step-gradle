@@ -1,7 +1,5 @@
 # Wercker-gradle
 
-> Note: this step is still under development, please come back soon!
-
 This Wercker step will install Gradle and run a build task for you.  Downloading Gradle means that you do not need to have it installed in your box/image, and it will not be included in the image you push at the end of your pipeline - thereby helping to keep your image size as small as possible. 
 
 If you specify the `cache_project_cache: true` parameter, your Gradle project cache will be placed inside the Wercker cache directory, meaning itwill still be available in subsequent builds, so you will not need to download dependencies, plugins, etc., in every build.
