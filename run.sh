@@ -10,7 +10,7 @@ echo "or visit https://github.com/wercker/step-gradle"
 # check if a specific version of gradle was requested, otherwise use the latest one we have tested with
 #
 if [[ -z "$WERCKER_STEP_GRADLE_VERSION" ]]; then
-  WERCKER_STEP_GRADLE_VERSION="4.0.1"
+  WERCKER_STEP_GRADLE_VERSION="4.2"
 fi
 
 #
