@@ -1,5 +1,5 @@
-name: step-gradle
-version: 0.1.6
+name: gradle
+version: 0.1.7
 description: Install and run gradle
 keywords:
   - gradle
@@ -11,7 +11,7 @@ properties:
   version:
     type: string
     required: false
-    default: 4.0.1
+    default: 4.2
   build_file:
     type: string
     required: false

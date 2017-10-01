@@ -19,7 +19,7 @@ To use the step, include it in your `wercker.yml` as in the example below:
 ```yaml
 build:
   steps:
-    - gradle:
+    - java/gradle:
         task: build
         version: 4.0.1
         cache_project_cache: true
