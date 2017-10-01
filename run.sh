@@ -6,6 +6,13 @@ echo "$(date +%H:%M:%S):  Hello from the Gradle Wercker Step"
 echo "For information on how to use this step, please review the documentation in the Wercker Marketplace,"
 echo "or visit https://github.com/wercker/step-gradle"
 
+# check that all of the required parameters were provided
+# note that wercker does not enforce this for us, so we have to check
+if [[ -z "$WERCKER_GRADLE_TASK" ]]; then
+  echo "$(date +%H:%M:%S): All required parameters: task MUST be specified"
+  exit 9
+fi
+
 #
 # check if a specific version of gradle was requested, otherwise use the latest one we have tested with
 #
@@ -28,7 +35,7 @@ else
   exit 1
 fi
 
-# check that wget is installed
+# check that curl is installed
 hash curl 2>/dev/null || { echo "$(date +%H:%M:%S):  curl is required to install gradle, install curl before this step."; exit 1; }
 
 # check unzip is installed
