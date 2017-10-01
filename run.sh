@@ -12,6 +12,7 @@ echo "or visit https://github.com/wercker/step-gradle"
 if [[ -z "$WERCKER_STEP_GRADLE_VERSION" ]]; then
   WERCKER_STEP_GRADLE_VERSION="4.2"
 fi
+echo "$(date +%H:%M:%S): Gradle version is $WERCKER_STEP_GRADLE_VERSION"
 
 #
 # check if we have everything we need to run Gradle
