@@ -109,5 +109,9 @@ export GRADLE_OPTS="$WERCKER_GRADLE_GRADLE_OPTS"
 # run gradle
 #
 export PATH=$PATH:/gradle/gradle-$WERCKER_GRADLE_VERSION/bin
-gradle $BUILD_FILE $SETTINGS_FILE --console=plain $SYSTEM_PROPS $DEBUG $INIT_SCRIPT $CACHE_DIR --stacktrace --foreground --no-daemon $WERCKER_GRADLE_TASK
+GRADLE_CMD="gradle $BUILD_FILE $SETTINGS_FILE --console=plain $SYSTEM_PROPS $DEBUG $INIT_SCRIPT $CACHE_DIR --stacktrace --foreground --no-daemon $WERCKER_GRADLE_TASK"
+echo "$(date +%H:%M:%S): Running Gradle with command:"
+echo $GRADLE_CMD
+$GRADLE_CMD
+
 
