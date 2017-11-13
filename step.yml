@@ -1,0 +1,36 @@
+name: gradle
+version: 0.3.0
+summary: Install and run gradle
+tags:
+  - gradle
+  - java
+properties:
+- name: task
+  type: string
+  required: true
+- name: version
+  type: string
+  required: false
+  default: 4.2
+- name: build_file
+  type: string
+  required: false
+  default: build.gradle
+- name: debug
+  type: string
+  required: false
+- name: cache_project_cache
+  type: string
+  required: false
+- name: init_script
+  type: string
+  required: false
+- name: system_props
+  type: string
+  required: false
+- name: settings_file
+  type: string
+  required: false
+- name: gradle_opts
+  type: string
+  required: false
