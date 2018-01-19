@@ -1,5 +1,5 @@
 name: gradle
-version: 1.0.0
+version: 1.0.1
 summary: Install and run gradle
 tags:
   - gradle
