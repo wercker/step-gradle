@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2017, Oracle and/or its affiliates. All rights reserved.
+# Copyright 2017, 2018, Oracle and/or its affiliates. All rights reserved.
 
 echo "$(date +%H:%M:%S):  Hello from the Gradle Wercker Step"
 echo "For information on how to use this step, please review the documentation in the Wercker Marketplace,"
@@ -9,8 +9,7 @@ echo "or visit https://github.com/wercker/step-gradle"
 # check that all of the required parameters were provided
 # note that wercker does not enforce this for us, so we have to check
 if [[ -z "$WERCKER_GRADLE_TASK" ]]; then
-  echo "$(date +%H:%M:%S): All required parameters: task MUST be specified"
-  exit 9
+  fail "$(date +%H:%M:%S): All required parameters: task MUST be specified"
 fi
 
 #
@@ -27,12 +26,10 @@ echo "$(date +%H:%M:%S): Gradle version is $WERCKER_GRADLE_VERSION"
 
 if [ -n "$JAVA_HOME" ] ; then
   if [ ! -x "$JAVA_HOME/bin/java" ] ; then
-      echo "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME"
-      exit 1
+      fail "$(date +%H:%M:%S): ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME"
   fi
 else
-  echo "$(date +%H:%M:%S):  Gradle requires java to work, please ensure Java is installed and JAVA_HOME set correctly"
-  exit 1
+  fail "$(date +%H:%M:%S):  Gradle requires java to work, please ensure Java is installed and JAVA_HOME set correctly"
 fi
 
 # check that curl is installed
@@ -52,8 +49,7 @@ if [ ! -d "/gradle" ]; then
 
 else
   if [ ! -x "/gradle/gradle-$WERCKER_GRADLE_VERSION-all/bin/gradle" ] ; then
-      echo "$(date +%H:%M:%S):  ERROR:  gradle was not installed properly"
-      exit 1
+      fail "$(date +%H:%M:%S):  ERROR:  gradle was not installed properly"
   fi
   echo "$(date +%H:%M:%S):  Gradle already present"
 fi
