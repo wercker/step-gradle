@@ -6,7 +6,7 @@ If you specify the `cache_project_cache: true` parameter, your Gradle project ca
 
 ## Requirements
 
-The box that you run this step in must have `curl` and `unzip` installed.  You can install in the in a `script` step if they are not in your image.  
+The box that you run this step in must have `curl` and `unzip` installed.  You can install these in a `script` step if they are not in your image.  
 
 The box must have a JDK installed, as required by Gradle.
 
