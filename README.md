@@ -58,3 +58,7 @@ All paramaters are optional unless otherwise specified.
 ## Sample Application
 
 A sample application is provided at [https://github.com/markxnelson/sample-gradle-step](https://github.com/markxnelson/sample-gradle-step) that demonstrates how to use this step. 
+
+## Contributing to this repository 
+
+Oracle welcomes contributions to this repository from anyone.  Please see [CONTRIBUTING](CONTRIBUTING.md) for more information. 
