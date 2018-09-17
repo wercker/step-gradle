@@ -36,7 +36,7 @@ fi
 hash curl 2>/dev/null || { echo "$(date +%H:%M:%S):  curl is required to install gradle, install curl before this step."; exit 1; }
 
 # check unzip is installed
-hash unzip 2>/dev/null || { echo "$(date +%H:%M:%S):  unzip is required, install tar before this step"; exit 1; }
+hash unzip 2>/dev/null || { echo "$(date +%H:%M:%S):  unzip is required, install unzip before this step"; exit 1; }
 
 if [ ! -d "/gradle" ]; then
   mkdir /gradle
