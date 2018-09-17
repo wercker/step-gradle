@@ -48,7 +48,7 @@ if [ ! -d "/gradle" ]; then
   rm gradle-$WERCKER_GRADLE_VERSION-bin.zip
 
 else
-  if [ ! -x "/gradle/gradle-$WERCKER_GRADLE_VERSION-all/bin/gradle" ] ; then
+  if [ ! -x "/gradle/gradle-$WERCKER_GRADLE_VERSION/bin/gradle" ] ; then
       fail "$(date +%H:%M:%S):  ERROR:  gradle was not installed properly"
   fi
   echo "$(date +%H:%M:%S):  Gradle already present"
